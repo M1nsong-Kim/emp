@@ -32,11 +32,23 @@
 </head>
 <body>
 	<div class="container">
+		<!-- 메뉴 partial jsp 구성-->
+		<div class="text-center">
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
+		</div>
 		<form method="post" action="<%=request.getContextPath()%>/dept/insertDeptAction.jsp">
 			<table class="table table-hover">
 				<tr>
 					<th colspan="2" class="text-center">부서 추가</th>
 				</tr>
+				<!-- msg값이 있으면 출력 -->
+				<%
+					if(request.getParameter("msg") != null){
+				%>
+						<div><%=request.getParameter("msg")%></div>
+				<%
+					}
+				%>
 				<!-- 입력칸 -->
 				<tr>
 					<td class="text">부서 번호</td>

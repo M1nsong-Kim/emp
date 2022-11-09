@@ -5,23 +5,26 @@
 <%
 	// 1. 요청 분석
 	String deptNo = request.getParameter("deptNo");
-	
+
+	// 방어코드
+	if(deptNo == null || deptNo.equals("")){
+		response.sendRedirect(request.getContextPath()+"/dept/deptList.jsp");
+		return;
+	}
+
 	// 2. 요청 처리 -> 모델데이터
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees", "root", "java1234");
-	String sql = "SELECT dept_no deptNo, dept_name deptName FROM departments WHERE dept_no = ?";	// where 절에 as말고 칼럼명 그대로
+	String sql = "SELECT dept_name deptName FROM departments WHERE dept_no = ?";	// where 절에 as말고 칼럼명 그대로
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	stmt.setString(1, deptNo);
 	ResultSet rs = stmt.executeQuery();
-	// 독립적이고 일반적인 ArrayList로 변환
-	ArrayList<Department> list = new ArrayList<>();
-	
+
 	String deptName = null;
 	Department d = new Department();
 	if(rs.next()){
 		d.deptNo = deptNo;
 		d.deptName = rs.getString("deptName");
-		list.add(d);
 	}
 	
 	// 3. 결과 출력 -> 모델데이터를 사용자가 원하는 형태로 출력
@@ -56,6 +59,10 @@
 </head>
 <body>
 	<div class="container">
+		<!-- 메뉴 partial jsp 구성-->
+		<div class="text-center">
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
+		</div>
 		<form method="post" action="<%=request.getContextPath()%>/dept/updateDeptAction.jsp">
 			<table class="table table-hover">
 				<tr>

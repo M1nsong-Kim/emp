@@ -53,6 +53,10 @@
 </head>
 <body>
 	<div class="container">
+		<!-- 메뉴 partial jsp 구성-->
+		<div class="text-center">
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
+		</div>
 		<h1 class="text-center">DEPT LIST</h1>
 		<div>
 			<!-- 부서 목록 출력(부서번호 내림차순) -->
