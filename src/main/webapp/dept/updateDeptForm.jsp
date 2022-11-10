@@ -37,25 +37,7 @@
 <!-- 부트스트랩 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-	<style>
-		/* 텍스트상자 */
-		.update {
-			width:400px;
-			background:transparent;
-			border-color: white;
-			color: white;
-		}
-		.text {
-			color: white;
-			text-decoration: none;
-		}
-		body{
-			background: linear-gradient(to right, #ff6e7f, #bfe9ff);
-		}
-		th, td {
-			text-align: center;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/empCss.css">
 </head>
 <body>
 	<div class="container">
@@ -71,13 +53,13 @@
 				<tr>
 					<td class="text">부서번호</td>
 					<td>
-						<input type="text" name="deptNo" value=<%=d.deptNo%> readonly="readonly" class="update">
+						<input type="text" name="deptNo" value=<%=d.deptNo%> readonly="readonly" class="box">
 					</td>
 				</tr>
 				<tr>
 					<td class="text">부서이름</td>
 					<td>
-						<input type="text" name="deptName" value=<%=d.deptName%> class="update">
+						<input type="text" name="deptName" value=<%=d.deptName%> class="box">
 					</td>
 				</tr>
 				<tr class="text-center">

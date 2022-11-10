@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="vo.*" %>
 <%
 	// 1. 요청 분석(데이터 입력 받기)
 	request.setCharacterEncoding("UTF-8");

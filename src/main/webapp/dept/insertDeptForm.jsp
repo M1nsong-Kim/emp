@@ -10,25 +10,7 @@
 <!-- 부트스트랩 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-	<style>
-		/* 텍스트상자 */
-		.insert {
-			width:400px;
-			background:transparent;
-			border-color: white;
-			color: white;
-		}
-		.text {
-			color: white;
-			text-decoration: none;
-		}
-		body{
-			background: linear-gradient(to right, #ff6e7f, #bfe9ff);
-		}
-		th, td {
-			text-align: center;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/empCss.css">
 </head>
 <body>
 	<div class="container">
@@ -53,13 +35,13 @@
 				<tr>
 					<td class="text">부서 번호</td>
 					<td>
-						<input type="text" name="deptNo" class="insert">
+						<input type="text" name="deptNo" class="box">
 					</td>
 				</tr>
 				<tr>
 					<td class="text">부서 이름</td>
 					<td>
-						<input type="text" name="deptName" class="insert">
+						<input type="text" name="deptName" class="box">
 					</td>
 				</tr>
 				<!-- 버튼 -->

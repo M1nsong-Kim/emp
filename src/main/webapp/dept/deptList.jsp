@@ -37,19 +37,7 @@
 <!-- 부트스트랩 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-	<style>
-		.text {
-			color: white;
-			text-decoration: none;
-			hover: none;
-		}
-		body{
-			background: linear-gradient(to right, #ff6e7f, #bfe9ff);
-		}
-		h1{
-			color: white;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/empCss.css">
 </head>
 <body>
 	<div class="container">
