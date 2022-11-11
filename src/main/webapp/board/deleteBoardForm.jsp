@@ -10,27 +10,21 @@
 	}
 
 	int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+	String msg = request.getParameter("msg"); // 수정실패 리다이렉트 -> msg
 	
-	// 2
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees", "root", "java1234");
-	String sql = "SELECT board_no boardNo, board_pw boardPw FROM board WHERE board_no = ?";
-	PreparedStatement stmt = conn.prepareStatement(sql);
-	stmt.setInt(1, boardNo);
-	ResultSet rs = stmt.executeQuery();
+	// 2 - 요청 처리 불필요
 	
-	Board b = null;
-	if(rs.next()){
-		b = new Board();
-		b.boardNo = boardNo;
-		b.boardPw = rs.getString("boardPw");
-	}
+	// 3
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>DELETE BOARD</title>
+<!-- 부트스트랩 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/empCss.css">
 </head>
 <body>
 	<div class="container">
@@ -42,12 +36,19 @@
 		<div>
 			<h1 class="text-center">글 삭제하기</h1>
 		</div>
+		<%
+	      if(msg != null) {
+	   %>
+	         <div class="text text-center" style="color:white"><%=msg%></div>
+	   <%      
+	      }
+	   %>
+		
 		<form method="post" action="<%=request.getContextPath()%>/board/deleteBoardAction.jsp">
 			<table class="table">
 				<tr>
-					<td>번호</td>
-					<td>
-						<input type="text" name="boardNo" value=<%=b.boardNo%> readonly="readonly" class="box">
+					<td colspan="2">
+						<input type="hidden" name="boardNo" value=<%=boardNo%> class="box">
 					</td>
 				</tr>
 				<tr>

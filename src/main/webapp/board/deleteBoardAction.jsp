@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
+<%@ page import="java.net.*" %>
 <%
 	// 1
 	request.setCharacterEncoding("UTF-8");	//한글
@@ -18,12 +19,14 @@
 	stmt.setString(2, boardPw);
 	
 	int row = stmt.executeUpdate();
-	if(row == 1){
-		System.out.println("게시판 글 삭제 성공");
+	if(row == 1){	//맞는 비밀번호를 입력했다면
+		response.sendRedirect(request.getContextPath()+"/board/boardList.jsp");
 	}else {
+		String msg = URLEncoder.encode("비밀번호를 확인하세요.", "UTF-8");
+		// 게시글 번호와 msg를 넘기며 폼으로 돌아감
+		response.sendRedirect(request.getContextPath()+"/board/deleteBoardForm.jsp?boardNo="+boardNo+"&msg="+msg);
 		System.out.println("게시판 글 삭제 실패");
 	}
 	
-	response.sendRedirect(request.getContextPath()+"/board/boardList.jsp");
 	// 3
 %>
