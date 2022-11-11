@@ -47,7 +47,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<button type="submit" class="btn btn-outline-light">등록</button>
+						<button type="submit" class="btn btn-outline-primary">등록</button>
 					</td>
 				</tr>
 			</table>

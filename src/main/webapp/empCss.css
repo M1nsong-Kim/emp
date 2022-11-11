@@ -3,24 +3,16 @@
 	width: 100%;
 	padding: 5px;
 	background:transparent;
-	border-color: white;
-	color: white;
 }
 .text {
 	text-decoration: none;
 }
-#exclude {
-	color: white;
+.currentPage {
+	font-weight:bold;
 }
-body{
-	background: linear-gradient(to right, #42275a, #734b6d);
-}
-/*not(#id) or not(.class)을 적어주면 아래 적은 스타일을 적용시키지 않는다*/
 h1, th, td:not(#exclude) {
 	text-align: center;
-	color: white;
 }
 a{
 	text-decoration: none;
-	color: white;
 }

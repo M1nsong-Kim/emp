@@ -21,6 +21,7 @@
 	int row = stmt.executeUpdate();
 	if(row == 1){	//맞는 비밀번호를 입력했다면
 		response.sendRedirect(request.getContextPath()+"/board/boardList.jsp");
+		System.out.println("게시판 글 삭제 성공");
 	}else {
 		String msg = URLEncoder.encode("비밀번호를 확인하세요.", "UTF-8");
 		// 게시글 번호와 msg를 넘기며 폼으로 돌아감

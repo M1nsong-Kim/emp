@@ -61,8 +61,8 @@
 					
 				%>
 						<tr>
-							<td class="text-white text-decoration-none"><%=d.deptNo%></td>
-							<td class="text-white text-decoration-none"><%=d.deptName%></td>
+							<td class="text-decoration-none"><%=d.deptNo%></td>
+							<td class="text-decoration-none"><%=d.deptName%></td>
 							<td>
 								<a href="<%=request.getContextPath()%>/dept/insertDeptForm.jsp" class="text">추가</a>
 							</td>

@@ -39,7 +39,7 @@
 		<%
 	      if(msg != null) {
 	   %>
-	         <div class="text text-center" style="color:white"><%=msg%></div>
+	         <div class="text text-center"><%=msg%></div>
 	   <%      
 	      }
 	   %>
@@ -60,7 +60,7 @@
 				</tr>
 				<tr class="text-center">
 					<td colspan="2">
-						<button type="submit" class="btn btn-outline-light">삭제</button>
+						<button type="submit" class="btn btn-outline-primary">삭제</button>
 					</td>
 				</tr>
 			</table>

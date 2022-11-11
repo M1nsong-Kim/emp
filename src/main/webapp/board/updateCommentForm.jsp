@@ -99,7 +99,7 @@
 				</tr>
 				<tr class="text-center">
 					<td colspan="2">
-						<button type="submit">수정</button>
+						<button type="submit" class="btn btn-outline-primary">수정</button>
 					</td>
 				</tr>
 			</table>

@@ -26,9 +26,9 @@
 				<h1 class="text-center">INDEX</h1>
 			</div>
 			<div>
-				<a href="<%=request.getContextPath()%>/dept/deptList.jsp" class="text-white text-decoration-none fs-3">부서 관리 / </a>
-				<a href="<%=request.getContextPath()%>/emp/empList.jsp" class="text-white text-decoration-none fs-3">사원 관리 / </a>
-				<a href="<%=request.getContextPath()%>/board/boardList.jsp" class="text-white text-decoration-none fs-3">게시판 관리</a>
+				<a href="<%=request.getContextPath()%>/dept/deptList.jsp" class="text-dark text-decoration-none fs-3">부서 관리 / </a>
+				<a href="<%=request.getContextPath()%>/emp/empList.jsp" class="text-dark text-decoration-none fs-3">사원 관리 / </a>
+				<a href="<%=request.getContextPath()%>/board/boardList.jsp" class="text-dark text-decoration-none fs-3">게시판 관리</a>
 			</div>
 		</div>
 	</div>

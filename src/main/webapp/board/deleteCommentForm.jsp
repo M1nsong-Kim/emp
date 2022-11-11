@@ -71,7 +71,7 @@
 				</tr>
 				<tr class="text-center">
 					<td colspan="2">
-						<button type="submit">삭제</button>
+						<button type="submit" class="btn btn-outline-primary">삭제</button>
 					</td>
 				</tr>
 	   		</table>
