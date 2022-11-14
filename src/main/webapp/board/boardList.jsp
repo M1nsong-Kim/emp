@@ -4,10 +4,16 @@
 <%@ page import="vo.*" %>
 <%
 	// 1. 요청 분석
+	// 페이징
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
+	
+	// 검색
+	request.setCharacterEncoding("UTF-8");	//한글
+	String searchContent = request.getParameter("searchContent");
+	// 1) searchContent == null / 2) searchContent == "" or "단어"
 	
 	// 2. 요청 처리 후 필요하다면 모델데이터 생성
 	final int ROW_PER_PAGE = 10;	// 상수(변수명-대문자)로 선언해 수정 방지
@@ -15,19 +21,42 @@
 	
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees", "root", "java1234");
+	
 	// 2-1. 마지막 페이지 구하기 위한 쿼리
-	String cntSql = "SELECT COUNT(*) cnt FROM board";
-	PreparedStatement cntStmt = conn.prepareStatement(cntSql);
+	String cntSql = null;
+	PreparedStatement cntStmt = null;
+	if(searchContent == null){	// null -> 전체 데이터 개수
+		cntSql = "SELECT COUNT(*) cnt FROM board";
+		cntStmt = conn.prepareStatement(cntSql);
+	} else {	// 내용에 searchContent를 포함하는 게시글 개수 
+		cntSql = "SELECT COUNT(*) cnt FROM board WHERE board_content LIKE ?";
+		cntStmt = conn.prepareStatement(cntSql);
+		cntStmt.setString(1, "%"+searchContent+"%");
+	}
+			
 	ResultSet cntRs = cntStmt.executeQuery();
 	int cnt = 0;	// 전체 행 개수
 	if(cntRs.next()){
 		cnt = cntRs.getInt("cnt");
 	}
-	// 2-2. 전체 테이블 불러오기
-	String listSql = "SELECT board_no boardNo, board_title boardTitle FROM board ORDER BY board_no ASC LIMIT ?, ?";
-	PreparedStatement listStmt = conn.prepareStatement(listSql);
-	listStmt.setInt(1, beginRow);
-	listStmt.setInt(2, ROW_PER_PAGE);
+	
+	// 2-2. 불러오기
+	String listSql = null;
+	PreparedStatement listStmt = null;
+	if(searchContent == null){ // null -> 전체 출력
+		listSql = "SELECT board_no boardNo, board_title boardTitle FROM board ORDER BY board_no ASC LIMIT ?, ?";
+		listStmt = conn.prepareStatement(listSql);
+		listStmt.setInt(1, beginRow);
+		listStmt.setInt(2, ROW_PER_PAGE);
+		
+	}else {	// 내용에 searchContent를 포함하는 게시글만 출력 
+		listSql = "SELECT board_no boardNo, board_title boardTitle FROM board WHERE board_content LIKE ? ORDER BY board_no ASC LIMIT ?, ?";
+		listStmt = conn.prepareStatement(listSql);
+		listStmt.setString(1, "%"+searchContent+"%");
+		listStmt.setInt(2, beginRow);
+		listStmt.setInt(3, ROW_PER_PAGE);
+	}
+	
 	ResultSet listRs = listStmt.executeQuery();	// model source data
 	ArrayList<Board> boardList = new ArrayList<Board>(); // model new data
 	while(listRs.next()){
@@ -36,6 +65,7 @@
 		b.boardTitle = listRs.getString("boardTitle");
 		boardList.add(b);
 	}
+	
 	//마지막 페이지
 	int lastPage = (int)Math.ceil((double)cnt / (double)ROW_PER_PAGE);
 %>
@@ -58,6 +88,15 @@
 		<br>
 		<h1 class="text-center">자유 게시판</h1>
 		
+		<!-- 검색창 -->
+		<!-- 즐겨찾기 등에 쓸 주소를 저장하려고 get 방식을 사용해야할 때가 있음 / <a>는 무조건 get 방식 -->
+		<form action="<%=request.getContextPath()%>/board/boardList.jsp" method="post">
+			<label for="searchContent">
+				<input type="text" name="searchContent" id="searchContent" placeholder="내용 검색">
+			 </label>
+			<button type="submit" class="btn btn-outline-primary">검색</button>
+		</form>
+		
 		<div style="float:right">
 			<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp">글쓰기</a>
 		</div>
@@ -76,7 +115,7 @@
 						<tr>
 							<td><%=b.boardNo%></td>
 							<!-- 제목 클릭 시 상세보기로 이동 -->
-							<td><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.boardNo%>"><%=b.boardTitle%></a></td>
+							<td><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.boardNo%>&searchContent=<%=searchContent%>"><%=b.boardTitle%></a></td>
 						</tr>
 				<%
 					}
@@ -85,23 +124,49 @@
 		</div>
 		<!-- 3-2. 페이징 -->
 		<div class="text-center">
-			<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=1">처음</a>
 			<%
-				if(currentPage > 1){
+				if(searchContent == null){			
 			%>
-					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage-1%>">이전</a>
-			<%
+					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=1">처음</a>
+					<%
+						if(currentPage > 1){
+					%>
+							<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage-1%>">이전</a>
+					<%
+						}
+					%>
+					<span><%=currentPage%></span>
+					<%
+						if(currentPage < lastPage){
+					%>
+							<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+					<%
+						}
+					%>
+					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=lastPage%>">마지막</a>
+			<% 
+				}else{			
+			%>
+					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=1&searchContent=<%=searchContent%>">처음</a>
+					<%
+						if(currentPage > 1){
+					%>
+							<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage-1%>&searchContent=<%=searchContent%>">이전</a>
+					<%
+						}
+					%>
+					<span><%=currentPage%></span>
+					<%
+						if(currentPage < lastPage){
+					%>
+							<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage+1%>&searchContent=<%=searchContent%>">다음</a>
+					<%
+						}
+					%>
+					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=lastPage%>&searchContent=<%=searchContent%>">마지막</a>
+			<% 
 				}
 			%>
-			<span><%=currentPage%></span>
-			<%
-				if(currentPage < lastPage){
-			%>
-					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage+1%>">다음</a>
-			<%
-				}
-			%>
-			<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=lastPage%>">마지막</a>
 		</div>
 	</div>
 </body>

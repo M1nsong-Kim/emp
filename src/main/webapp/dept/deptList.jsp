@@ -4,15 +4,29 @@
 <%@ page import="vo.*" %>
 <%
 	// 1. 요청 분석+a(Controller)
+	request.setCharacterEncoding("UTF-8");
+	String word = request.getParameter("word");
+	// 1) word == null, 2) word == "", word == "단어"
 	
 	// 2. 업무 처리(Model) -> 모델데이터(단일값 or 자료구조형태(배열, list ... ))
 	Class.forName("org.mariadb.jdbc.Driver");
 	System.out.println("드라이버 로딩");	// 디버깅
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees", "root", "java1234");
 	System.out.println(conn + "   : conn");	//디버깅
+	
 	// 쿼리: 자바 변수 선언 방식에 맞게 as로 컬럼명 선언
-	String sql = "SELECT dept_no deptNo, dept_name deptName FROM departments ORDER BY dept_no desc";	//쿼리
-	PreparedStatement stmt = conn.prepareStatement(sql);
+	// 분기되는 개수에 따라 if문
+	String sql = null;
+	PreparedStatement stmt = null;
+	if(word == null){
+		sql = "SELECT dept_no deptNo, dept_name deptName FROM departments ORDER BY dept_no desc";	//쿼리
+		stmt = conn.prepareStatement(sql);
+	} else {
+		sql = "SELECT dept_no deptNo, dept_name deptName FROM departments WHERE dept_name LIKE ? ORDER BY dept_no desc";	//쿼리
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%"+word+"%");
+	}
+	
 	// 쿼리 실행, 사용 / rs : 모델
 	ResultSet rs = stmt.executeQuery();	// 모델데이터 ResultSet은 일반적x, 독립적x
 	// ResultSet rs라는 모델자료구조를 일반적이고 독립적인 자료구조로 변경
@@ -45,8 +59,19 @@
 		<div class="text-center">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</div>
+		<br>
+		
 		<h1 class="text-center">DEPT LIST</h1>
-		<div>
+		
+		<!-- 검색창 -->
+		<!-- 즐겨찾기 등에 쓸 주소를 저장하려고 get 방식을 사용해야할 때가 있음 / <a>는 무조건 get 방식 -->
+		<form action="<%=request.getContextPath()%>/dept/deptList.jsp" method="post">
+			<label for="word">부서이름 검색 : </label>	<!-- for 뒤에 id값 -->
+			<input type="text" name="word" id="word">
+			<button type="submit">검색</button>
+		</form>
+		
+		<div class="container">
 			<!-- 부서 목록 출력(부서번호 내림차순) -->
 			<table class="table table-hover">
 				<tr>
