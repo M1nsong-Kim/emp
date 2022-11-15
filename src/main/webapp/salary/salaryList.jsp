@@ -99,7 +99,7 @@
 		<!-- 검색창 -->
 		<!-- 즐겨찾기 등에 쓸 주소를 저장하려고 get 방식을 사용해야할 때가 있음 / <a>는 무조건 get 방식 -->
 		<form action="<%=request.getContextPath()%>/salary/salaryList.jsp" method="post">
-			<label for="searchContent">
+			<label for="searchName">
 				<input type="text" name="searchName" id="searchName" placeholder="사원 성/이름 검색">
 			 </label>
 			<button type="submit" class="btn btn-outline-primary">검색</button>
