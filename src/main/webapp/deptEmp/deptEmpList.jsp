@@ -100,38 +100,40 @@
 <body>
 	<div class="container">
 		<!-- 메뉴 partial jsp 구성-->
-		<div class="text-center">
+		<div class="menu">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</div>
-		<br>
-		<h1 class="text-center">부서별 사원 정보</h1>
+
+		<h3>부서별 사원 정보</h3>
 		
 		<!-- 검색창 -->
 		<!-- 즐겨찾기 등에 쓸 주소를 저장하려고 get 방식을 사용해야 할 때가 있음 / <a>는 무조건 get 방식 -->
-		<form action="<%=request.getContextPath()%>/deptEmp/deptEmpList.jsp" method="post">
-			<label for="searchDept">
-				<input type="text" name="searchDept" id="searchDept" placeholder="부서 검색">
-			 </label>
-			<button type="submit" class="btn btn-outline-primary">검색</button>
-		</form>
+		<div class="alignRight">
+			<form action="<%=request.getContextPath()%>/deptEmp/deptEmpList.jsp" method="post">
+				<label for="searchDept">
+					<input type="text" name="searchDept" id="searchDept" placeholder="부서 검색">
+				 </label>
+				<button type="submit" class="btn btn-outline-primary">검색</button>
+			</form>
+		</div>
 		
-		<table class="table">
+		<table class="table table-hover">
 			<tr>
-				<td>사원번호</td>
-				<td>이름</td>
-				<td>부서번호</td>
-				<td>부서이름</td>
-				<td>계약날짜</td>
-				<td>계약종료날짜</td>			
+				<th>사원번호</th>
+				<th>이름</th>
+				<th>부서번호</th>
+				<th>부서이름</th>
+				<th>계약날짜</th>
+				<th>계약종료날짜</th>			
 			</tr>
 			<%
 				for(DeptEmp de : list){
 			%>
 					<tr>
-						<td><%=de.emp.empNo%></td>
-						<td><%=de.emp.firstName%></td>
-						<td><%=de.dept.deptNo%></td>
-						<td><%=de.dept.deptName%></td>
+						<td class="tdSmall"><%=de.emp.empNo%></td>
+						<td style="width:25%"><%=de.emp.firstName%></td>
+						<td class="tdSmall"><%=de.dept.deptNo%></td>
+						<td style="width:25%"><%=de.dept.deptName%></td>
 						<td><%=de.fromDate%></td>
 						<td><%=de.toDate%></td>
 					</tr>

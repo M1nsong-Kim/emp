@@ -81,37 +81,43 @@
 <head>
 <meta charset="UTF-8">
 <title>EMP LIST</title>
+<!-- 부트스트랩 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/empCss.css">
 </head>
 <body>
 	<div class="container">
 		<!-- 메뉴 partial jsp 구성-->
-		<div class="text-center">
+		<div class="menu">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</div>
-		<h1>사원목록</h1>
+		<h3>사원목록</h3>
 		
 		<!-- 검색창 -->
 		<!-- 즐겨찾기 등에 쓸 주소를 저장하려고 get 방식을 사용해야할 때가 있음 / <a>는 무조건 get 방식 -->
-		<form action="<%=request.getContextPath()%>/emp/empList.jsp" method="post">
-			<label for="search">
-				<input type="text" name="search" id="search" placeholder="성/이름 검색">
-			 </label>
-			<button type="submit" class="btn btn-outline-primary">검색</button>
-		</form>
+		<div class="alignRight">
+			<form action="<%=request.getContextPath()%>/emp/empList.jsp" method="post">
+				<label for="search">
+					<input type="text" name="search" id="search" placeholder="성/이름 검색">
+				 </label>
+				<button type="submit" class="btn btn-outline-primary">검색</button>
+			</form>
+		</div>
 		
-		<table class="table">
+		<table class="table table-hover">
 			<tr>
-				<th style="width:50px">사원번호</th>
-				<th style="width:500px">퍼스트네임</th>
-				<th style="width:150px">라스트네임</th>
+				<th>사원번호</th>
+				<th>이름</th>
+				<th>성</th>
 			</tr>
 			<%
 				for(Employee e : empList){
 			%>
 					<tr>
-						<td><%=e.empNo%></td>
-						<td><%=e.firstName%></td>
-						<td><%=e.lastName%></td>
+						<td class="tdSmall"><%=e.empNo%></td>
+						<td class="tdMedium"><%=e.firstName%></td>
+						<td class="tdMedium"><%=e.lastName%></td>
 					</tr>
 			<%
 				}

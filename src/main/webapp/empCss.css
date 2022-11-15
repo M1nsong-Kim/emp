@@ -1,18 +1,66 @@
 @charset "UTF-8";
 .box {
 	width: 100%;
+	/*
 	padding: 5px;
 	background:transparent;
+	*/
 }
+
 .text {
 	text-decoration: none;
 }
+
 .currentPage {
 	font-weight:bold;
 }
-h1, th, td:not(#exclude) {
+
+/* 오른쪽으로 붙일 클래스 */
+.alignRight{
+	float:right;
+}
+
+.alignLeft{
+	float:left;
+}
+
+.tdSmall {
+	width:10%;
 	text-align: center;
 }
+
+.tdMedium {
+	width:30%;
+	text-align: center;
+}
+
+/* 메뉴 */
+.menu{
+	padding-top:40px;
+	padding-bottom:25px;
+}
+
+/* 위아래로 간격 */
+.forPadding {
+	padding-top:40px;
+	padding-bottom:25px;
+}
+
+h3 {
+	margin-top:50px;
+}
+
+/*왼쪽 정렬하고 싶은 td는 class="exclude"*/
+th, td:not(.exclude) {
+	text-align: center;
+}
+
 a{
 	text-decoration: none;
 }
+
+a:hover {
+	color: black;
+}
+
+/* 부트스트랩: container table table-hover */

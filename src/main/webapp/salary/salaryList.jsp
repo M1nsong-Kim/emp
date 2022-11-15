@@ -90,40 +90,42 @@
 <body>
 	<div class="container">
 		<!-- 메뉴 partial jsp 구성-->
-		<div class="text-center">
+		<div class="menu">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</div>
 		<br>
-		<h1 class="text-center">연봉</h1>
+		<h3>연봉</h3>
 		
 		<!-- 검색창 -->
 		<!-- 즐겨찾기 등에 쓸 주소를 저장하려고 get 방식을 사용해야할 때가 있음 / <a>는 무조건 get 방식 -->
-		<form action="<%=request.getContextPath()%>/salary/salaryList.jsp" method="post">
-			<label for="searchName">
-				<input type="text" name="searchName" id="searchName" placeholder="사원 성/이름 검색">
-			 </label>
-			<button type="submit" class="btn btn-outline-primary">검색</button>
-		</form>
+		<div class="alignRight">
+			<form action="<%=request.getContextPath()%>/salary/salaryList.jsp" method="post">
+				<label for="searchName">
+					<input type="text" name="searchName" id="searchName" placeholder="사원 성/이름 검색">
+				 </label>
+				<button type="submit" class="btn btn-outline-primary">검색</button>
+			</form>
+		</div>
 		
-		<table class="table">
+		<table class="table table-hover">
 			<tr>
-				<td>사원번호</td>
-				<td>연봉</td>
-				<td>입사날짜</td>
-				<td>퇴사날짜</td>
-				<td>이름</td>
-				<td>성</td>
+				<th>사원번호</th>
+				<th>연봉</th>
+				<th>계약일자</th>
+				<th>계약종료일자</th>
+				<th>이름</th>
+				<th>성</th>
 			</tr>
 			<%
 				for(Salary s : salaryList){
 			%>	
 					<tr>
-						<td><%=s.emp.empNo%></td>
+						<td class="tdSmall"><%=s.emp.empNo%></td>
 						<td><%=s.salary%></td>
 						<td><%=s.fromDate%></td>
 						<td><%=s.toDate%></td>
-						<td><%=s.emp.firstName%></td>
-						<td><%=s.emp.lastName%></td>
+						<td style="width:20%"><%=s.emp.firstName%></td>
+						<td style="width:20%"><%=s.emp.lastName%></td>
 					</tr>
 			<%
 				}

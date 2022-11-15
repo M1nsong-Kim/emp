@@ -44,13 +44,13 @@
 	String listSql = null;
 	PreparedStatement listStmt = null;
 	if(searchContent == null){ // null -> 전체 출력
-		listSql = "SELECT board_no boardNo, board_title boardTitle FROM board ORDER BY board_no ASC LIMIT ?, ?";
+		listSql = "SELECT board_no boardNo, board_title boardTitle, board_writer boardWriter FROM board ORDER BY board_no ASC LIMIT ?, ?";
 		listStmt = conn.prepareStatement(listSql);
 		listStmt.setInt(1, beginRow);
 		listStmt.setInt(2, ROW_PER_PAGE);
 		
 	}else {	// 내용에 searchContent를 포함하는 게시글만 출력 
-		listSql = "SELECT board_no boardNo, board_title boardTitle FROM board WHERE board_content LIKE ? ORDER BY board_no ASC LIMIT ?, ?";
+		listSql = "SELECT board_no boardNo, board_title boardTitle, board_writer boardWriter FROM board WHERE board_content LIKE ? ORDER BY board_no ASC LIMIT ?, ?";
 		listStmt = conn.prepareStatement(listSql);
 		listStmt.setString(1, "%"+searchContent+"%");
 		listStmt.setInt(2, beginRow);
@@ -63,6 +63,7 @@
 		Board b = new Board();
 		b.boardNo = listRs.getInt("boardNo");
 		b.boardTitle = listRs.getString("boardTitle");
+		b.boardWriter = listRs.getString("boardWriter");
 		boardList.add(b);
 	}
 	
@@ -82,48 +83,55 @@
 <body>
 	<div class="container">
 		<!-- 메뉴 partial jsp 구성-->
-		<div class="text-center">
+		<div class="menu">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</div>
-		<br>
-		<h1 class="text-center">자유 게시판</h1>
+
+		<h3>자유 게시판</h3>
 		
 		<!-- 검색창 -->
 		<!-- 즐겨찾기 등에 쓸 주소를 저장하려고 get 방식을 사용해야할 때가 있음 / <a>는 무조건 get 방식 -->
+		<div class="alignRight">
 		<form action="<%=request.getContextPath()%>/board/boardList.jsp" method="post">
 			<label for="searchContent">
 				<input type="text" name="searchContent" id="searchContent" placeholder="내용 검색">
 			 </label>
 			<button type="submit" class="btn btn-outline-primary">검색</button>
 		</form>
-		
-		<div style="float:right">
-			<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp">글쓰기</a>
 		</div>
+		
 		
 		<!-- 3-1. 모델데이터(ArrayList<Board>) 출력 -->
 		<div>
-			<table class="table">
+			<table class="table table-hover">
 				<tr>
+					<th>글번호</th>
 					<th>제목</th>
-					<th>내용</th>
+					<th>작성자</th>
 				</tr>
 				
 				<%
 					for(Board b : boardList){
 				%>
 						<tr>
-							<td><%=b.boardNo%></td>
+							<td class="tdSmall"><%=b.boardNo%></td>
 							<!-- 제목 클릭 시 상세보기로 이동 -->
-							<td><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.boardNo%>&searchContent=<%=searchContent%>"><%=b.boardTitle%></a></td>
+							<td class="exclude"><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.boardNo%>&searchContent=<%=searchContent%>"><%=b.boardTitle%></a></td>
+							<td class="tdMedium"><%=b.boardWriter%></td>
 						</tr>
 				<%
 					}
 				%>
 			</table>
 		</div>
+		
+		<!-- 글쓰기 버튼 -->
+		<div class="alignRight">
+			<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp">글쓰기</a>
+		</div>
+		
 		<!-- 3-2. 페이징 -->
-		<div class="text-center">
+		<div class="text-center forPadding">
 			<%
 				if(searchContent == null){			
 			%>
